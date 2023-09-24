@@ -101,7 +101,7 @@ function validateForm(hasError) {
   });
 
   if (!hasError) {
-    clearErrorMessages();
+    clearErrorMessages(fieldName);
   }
 }
 
