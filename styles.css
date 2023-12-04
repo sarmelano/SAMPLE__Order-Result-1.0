@@ -103,3 +103,8 @@ form {
 #productChoosed {
   font-weight: bold;
 }
+
+textarea, input, select {
+  border: .2px solid black;
+  margin-top: 5px;
+}

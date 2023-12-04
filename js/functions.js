@@ -85,35 +85,43 @@ function createTable(formData) {
   table.appendChild(dataRow);
 }
 
-function validateForm(hasError) {
+function validateForm() {
   const form = document.forms['myForm'];
-  const fields = ['customer', 'city', 'postal', 'payment', 'amount', 'comment'];
+  const fields = ['customer', 'city', 'postal', 'payment', 'amount'];
 
   clearErrorMessages();
 
   fields.forEach(fieldName => {
     const value = form.elements[fieldName].value.trim();
+    const errorElement = document.getElementById(`${fieldName}Error`);
     if (value === '') {
       displayErrorMessage(fieldName, ' Все поля должны быть заполнены');
-    } else if (hasError && fieldName === 'customer') {
-      displayErrorMessage(fieldName, ' Укажите Фамилию Имя и Отчество');
+    } else if (fieldName === 'customer') {
+      const names = value.split(' ');
+      if (names.length !== 3 || /^\s*$/.test(names[0]) || /^\s*$/.test(names[1]) || /^\s*$/.test(names[2]) || !/^[\u0400-\u04FF\s]+$/.test(value)) {
+        displayErrorMessage(fieldName, ' Укажите Фамилию Имя и Отчество');
+      } else {
+        errorElement.textContent = '';
+        errorElement.style.display = 'none'; // Убираем сообщение об ошибке, если валидация прошла успешно
+      }
     }
   });
-
-  if (!hasError) {
-    clearErrorMessages(fieldName);
-  }
 }
+
+
 
 function displayErrorMessage(fieldName, message) {
   const errorElement = document.getElementById(`${fieldName}Error`);
   errorElement.textContent = message;
   errorElement.style.color = 'red';
+  errorElement.style.display = 'inline'; // Показываем сообщение об ошибке
 }
+
 
 function clearErrorMessages() {
   const errorElements = document.querySelectorAll('[id$="Error"]');
   errorElements.forEach(element => {
     element.textContent = '';
+    element.style.display = 'none'; // Скрываем сообщения об ошибке
   });
 }

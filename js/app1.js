@@ -43,20 +43,20 @@ document.getElementById('btn').addEventListener('click', function () {
     comment: form.elements['comment'].value,
   };
   let fullName = formData.fullName; 
-  let names = fullName.split(' '); 
-  if (names.length !== 3 || /^\s*$/.test(names[0]) || /^\s*$/.test(names[1]) || /^\s*$/.test(names[2]) || !/^[\u0400-\u04FF\s]+$/.test(fullName)) {
-    names=true;
-    validateForm(names)
-    return;
-  }else {
-    names = false;
-  }
+let names = fullName.split(' '); 
+if (names.length !== 3 || /^\s*$/.test(names[0]) || /^\s*$/.test(names[1]) || /^\s*$/.test(names[2]) || !/^[\u0400-\u04FF\s]+$/.test(fullName)) {
+  names=true;
+  validateForm(names); // Передача переменной names в функцию validateForm
+  return;
+} else {
+  names = false;
+}
 
-  if (Object.values(formData).some(value => value === '')) {
-    validateForm();
-    return;
-  } else {
-    validateForm(false); // Передаем false в случае успешной проверки
-  }
+if (Object.values(formData).some(value => value === '')) {
+  validateForm(false); // Передача false в случае ошибок в форме
+  return;
+} else {
+  validateForm(false); // Передача false в случае успешной проверки формы
+}
   createTable(formData);
 });
